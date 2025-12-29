@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offer Service | TimeBank</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex justify-between items-center">
+
+      <!-- Logo -->
+      <h1 class="text-2xl font-bold flex items-center gap-2 cursor-pointer"
+        onclick="location.href='dashboard.html'">
+      <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      TimeBank
+    </h1>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex gap-4 items-center">
+        <a href="dashboard.html" class="hover:text-indigo-200">Dashboard</a>
+        <a href="my-services.html" class="hover:text-indigo-200">My Services</a>
+
+        <button onclick="logout()"
+        class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+        Logout
+      </button>
+      </div>
+
+      <!-- Hamburger -->
+      <button class="md:hidden text-3xl" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 space-y-3 bg-indigo-700">
+      <a href="dashboard.html" class="block hover:text-indigo-200">Dashboard</a>
+           <button onclick="logout()"
+      class="w-full bg-red-500 py-2 rounded-lg hover:bg-red-600 transition">
+      Logout
+    </button>
+    </div>
+  </nav>
+
+  <!-- Form Section -->
+  <div class="flex justify-center items-center px-4 py-10">
+    <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md">
+
+      <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center">
+        Offer a Service
+      </h2>
+
+      <div class="space-y-4">
+        <!-- Title -->
+        <div>
+          <label class="text-sm text-gray-600">Service Title</label>
+          <input
+            id="title"
+            type="text"
+            placeholder="e.g. Web Development"
+            class="border rounded-lg p-3 w-full text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+<button
+  onclick="generateAI()"
+  class="text-indigo-600 font-semibold mb-3 hover:underline">
+  ✨ Generate Description with AI
+</button>
+
+
+        <!-- Description -->
+        <div>
+          <label class="text-sm text-gray-600">Description</label>
+          <textarea
+            id="description"
+            rows="4"
+            placeholder="Describe your service"
+            class="border rounded-lg p-3 w-full text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          ></textarea>
+        </div>
+
+        <!-- Hours -->
+        <div>
+          <label class="text-sm text-gray-600">Time Required (hours)</label>
+          <input
+            id="hours"
+            type="number"
+            min="1"
+            placeholder="1"
+            class="border rounded-lg p-3 w-full text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- Add Service Button with Icon -->
+        <button
+          onclick="addService()"
+          class="bg-indigo-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2 active:scale-95"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Add Service
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+<footer class="text-center text-gray-500 py-6">
+  © 2026 TimeBank | SkillShare Platform
+</footer>
+
+  <script src="app.js"></script>
+  <script>
+     function logout() {
+    localStorage.clear();
+    location.href = "login.html";
+     }
+
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    }
+
+
+    //AI 
+function generateAI() {
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description");
+
+  if (!title) {
+    alert("Please enter service title first");
+    return;
+  }
+
+  description.value = "Generating with AI...";
+
+  fetch("http://localhost:3000/ai/generate-description", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      description.value = data.description;
+    } else {
+      description.value = "";
+      alert("AI failed");
+    }
+  })
+  .catch(() => {
+    description.value = "";
+    alert("Server error");
+  });
+}
+  </script>
+
+</body>
+</html>

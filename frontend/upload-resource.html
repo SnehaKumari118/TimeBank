@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Learning Resource | TimeBank</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-50 to-gray-100 min-h-screen">
+
+<!-- Navbar -->
+<nav class="bg-indigo-600 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+      <h1 class="text-2xl font-bold flex items-center gap-2 cursor-pointer"
+        onclick="location.href='dashboard.html'">
+      <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      TimeBank
+    </h1>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-4">
+      <a href="dashboard.html" class="hover:text-indigo-200">Dashboard</a>
+      <button onclick="logout()"
+        class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+        Logout
+      </button>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="md:hidden text-3xl" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-indigo-700 px-4 pb-4 space-y-3">
+    <a href="dashboard.html" class="block hover:text-indigo-200">Dashboard</a>
+    <button onclick="logout()"
+      class="w-full bg-red-500 py-2 rounded-lg hover:bg-red-600 transition">
+      Logout
+    </button>
+  </div>
+</nav>
+
+<!-- Upload Card -->
+<div class="flex justify-center px-4 mt-10">
+  <div class="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 sm:p-8">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+      Upload Learning Resource
+    </h2>
+
+    <form id="uploadForm" class="space-y-4">
+
+      <!-- Title -->
+      <div>
+        <label class="text-sm text-gray-600">Title</label>
+        <input
+          id="title"
+          type="text"
+          placeholder="e.g. Java Basics"
+          class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          required
+        />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="text-sm text-gray-600">Description</label>
+        <textarea
+          id="description"
+          rows="3"
+          placeholder="Brief description"
+          class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        ></textarea>
+      </div>
+
+      <!-- Type -->
+      <div>
+        <label class="text-sm text-gray-600">Resource Type</label>
+        <select
+          id="file_type"
+          class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        >
+          <option value="video">🎥 Video</option>
+          <option value="pdf">📄 PDF</option>
+          <option value="text">📝 Text</option>
+        </select>
+      </div>
+
+
+      <!-- File -->
+      <div>
+        <label class="text-sm text-gray-600">Upload File</label>
+        <input
+          type="file"
+          id="resource"
+          class="w-full text-sm border rounded-lg p-2 bg-gray-50"
+          required
+        />
+      </div>
+
+      <!-- Submit -->
+      <button
+        class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition active:scale-95"
+      >
+         Upload Resource
+      </button>
+
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-500 py-6">
+  © 2026 TimeBank | SkillShare Platform
+</footer>
+
+<script>
+const API = "http://localhost:3000";
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user) location.href = "login.html";
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+function toggleMenu() {
+  document.getElementById("mobileMenu").classList.toggle("hidden");
+}
+
+document.getElementById("uploadForm").onsubmit = e => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("user_id", user.id);
+  formData.append("title", title.value);
+  formData.append("description", description.value);
+  formData.append("file_type", file_type.value);
+  formData.append("resource", resource.files[0]);
+
+  fetch(API + "/upload-resource", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Resource uploaded successfully!");
+      location.reload();
+    } else {
+      alert("Upload failed");
+    }
+  });
+};
+</script>
+
+</body>
+</html>

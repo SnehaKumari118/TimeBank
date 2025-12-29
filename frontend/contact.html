@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | TimeBank</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+<nav class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <h1 class="font-bold text-2xl flex items-center gap-2 cursor-pointer"
+        onclick="location.href='dashboard.html'">
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      TimeBank
+    </h1>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-6">
+      <a href="dashboard.html" class="hover:text-indigo-200 font-semibold">
+        Dashboard
+      </a>
+      <button onclick="logout()"
+        class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition font-semibold">
+        Logout
+      </button>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="md:hidden text-3xl" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-indigo-700 px-6 py-4 space-y-3">
+    <a href="dashboard.html"
+       class="block hover:text-indigo-200 font-semibold">
+      Dashboard
+    </a>
+    <button onclick="logout()"
+      class="w-full bg-red-500 py-2 rounded-lg hover:bg-red-600 transition font-semibold">
+      Logout
+    </button>
+  </div>
+</nav>
+
+<!-- CONTACT FORM -->
+<div class="flex-1 flex justify-center items-center mt-10 px-4">
+  <div class="bg-white w-full max-w-lg p-8 rounded-2xl shadow-lg border border-gray-200">
+
+    <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">
+      Get in Touch
+    </h2>
+    <p class="text-center text-gray-500 mb-8">
+      We'd love to hear from you! Send us your doubt below.
+    </p>
+
+    <div class="mb-4">
+      <input type="text" id="name" placeholder="Your Name"
+        class="border border-gray-300 w-full p-4 rounded-lg
+        focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+    </div>
+
+    <div class="mb-4">
+      <input type="tel" id="phone" placeholder="Phone Number"
+        class="border border-gray-300 w-full p-4 rounded-lg
+        focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+    </div>
+
+    <div class="mb-4">
+      <input type="text" id="subject" placeholder="Subject"
+        class="border border-gray-300 w-full p-4 rounded-lg
+        focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+    </div>
+
+    <div class="mb-6">
+      <textarea id="message" rows="5" placeholder="Your Doubt"
+        class="border border-gray-300 w-full p-4 rounded-lg
+        focus:outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
+    </div>
+
+    <button onclick="sendMessage()"
+      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold shadow-md transition transform hover:scale-105">
+      Send Doubt
+    </button>
+
+  </div>
+</div>
+<!-- FOOTER -->
+<footer class="text-center text-gray-500 py-6">
+  © 2026 TimeBank | SkillShare Platform
+</footer>
+<!-- SCRIPT -->
+<script src="app.js"></script>
+<script>
+  function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("hidden");
+  }
+
+  function logout() {
+    localStorage.clear();
+    location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

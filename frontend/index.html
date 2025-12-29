@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeBank | Exchange Skills, Earn Time</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-cover bg-center"
+  style="background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d');">
+
+<!-- Overlay -->
+<div class="min-h-screen bg-black bg-opacity-70 flex flex-col">
+
+  <!-- NAVBAR -->
+  <nav class="max-w-7xl mx-auto w-full px-6 py-5 flex justify-between items-center text-white">
+    
+    <!-- Logo -->
+    <h1 class="text-2xl font-bold flex items-center gap-2">
+      <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      TimeBank
+    </h1>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-6">
+      <a href="login.html" class="hover:text-indigo-300 transition">Login</a>
+      <a href="register.html"
+        class="bg-indigo-600 px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+        Sign Up
+      </a>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="md:hidden text-3xl" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden px-6 pb-6 text-white space-y-4">
+    <a href="login.html" class="block hover:text-indigo-300">Login</a>
+    <a href="register.html"
+      class="block bg-indigo-600 py-2 rounded-lg text-center hover:bg-indigo-700">
+      Sign Up
+    </a>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="flex-1 flex flex-col justify-center items-center text-center px-6 text-white">
+
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+      Exchange Skills.<br>
+      <span class="text-indigo-400">Earn Time Credits.</span>
+    </h1>
+
+    <p class="text-base md:text-lg max-w-2xl mb-8 text-gray-200">
+      TimeBank is a community-driven platform where people exchange services
+      using time instead of money. Offer your skills, request help, and grow together.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="login.html"
+        class="bg-indigo-600 px-8 py-3 rounded-xl text-lg font-semibold hover:bg-indigo-700 transition">
+        Get Started
+      </a>
+      <a href="register.html"
+        class="border border-white px-8 py-3 rounded-xl text-lg font-semibold hover:bg-white hover:text-black transition">
+        Create Account
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+  function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("hidden");
+  }
+</script>
+
+</body>
+</html>

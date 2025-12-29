@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | TimeBank</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-indigo-500 to-purple-600 min-h-screen flex justify-center items-center px-4">
+
+  <form
+    onsubmit="register(event)"
+    class="bg-white w-full max-w-sm p-8 rounded-2xl shadow-2xl">
+
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <div class="flex justify-center mb-2">
+        <svg class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-indigo-600">TimeBank</h1>
+      <p class="text-gray-500 text-sm">Create your account</p>
+    </div>
+
+    <!-- Name -->
+    <input
+      id="name"
+      required
+      placeholder="Full Name"
+      class="border border-gray-300 p-3 w-full mb-4 rounded-lg
+      focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+    <!-- Email -->
+    <input
+      id="email"
+      type="email"
+      required
+      placeholder="Email Address"
+      class="border border-gray-300 p-3 w-full mb-4 rounded-lg
+      focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+    <!-- Password -->
+    <input
+      id="password"
+      type="password"
+      required
+      placeholder="Password"
+      class="border border-gray-300 p-3 w-full mb-4 rounded-lg
+      focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+    <!-- Button -->
+    <button
+      type="submit"
+      class="bg-indigo-600 text-white w-full py-3 rounded-lg font-semibold
+      hover:bg-indigo-700 transition">
+      Register
+    </button>
+
+    <!-- Success Message -->
+    <p id="successMsg"
+      class="text-green-600 text-sm text-center mt-4 hidden">
+      Registration successful! Redirecting to login...
+    </p>
+
+    <!-- Error Message -->
+    <p id="errorMsg"
+      class="text-red-600 text-sm text-center mt-3 hidden">
+      Registration failed. Please try again.
+    </p>
+
+    <!-- Footer -->
+    <p class="text-center mt-6 text-sm text-gray-600">
+      Already have an account?
+      <a href="login.html"
+        class="text-indigo-600 font-semibold hover:underline">
+        Login
+      </a>
+    </p>
+
+  </form>
+
+  <!-- SCRIPT -->
+  <script>
+    function register(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const success = document.getElementById("successMsg");
+      const error = document.getElementById("errorMsg");
+
+      success.classList.add("hidden");
+      error.classList.add("hidden");
+
+      fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(() => {
+        success.classList.remove("hidden");
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
+      })
+      .catch(() => {
+        error.classList.remove("hidden");
+      });
+    }
+  </script>
+
+</body>
+</html>

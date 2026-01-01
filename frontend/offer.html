@@ -158,7 +158,7 @@
 
       description.value = "Generating with AI...";
 
-      fetch("http://localhost:3000/ai/generate-description", {
+      fetch("https://timebank-backend-qi71.onrender.com/generate-description", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title })

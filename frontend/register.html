@@ -116,7 +116,7 @@
       success.classList.add("hidden");
       error.classList.add("hidden");
 
-      fetch("http://localhost:3000/register", {
+      fetch("https://timebank-backend-qi71.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password })

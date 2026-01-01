@@ -69,6 +69,29 @@ app.use("/uploads", express.static("uploads"));
 app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
 
+    // Validation
+  if (!name || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required"
+    });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid email format"
+    });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      success: false,
+      message: "Password must be at least 6 characters"
+    });
+  }
+
   db.query(
     "SELECT id FROM users WHERE email=?",
     [email],
@@ -91,15 +114,46 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Email and password are required"
+    });
+  }
+
   db.query(
-    "SELECT * FROM users WHERE email=? AND password=?",
-    [email, password],
+    "SELECT * FROM users WHERE email=?",
+    [email],
     (err, result) => {
-      if (result.length > 0) res.json(result[0]);
-      else res.json(null);
+      if (err) {
+        return res.status(500).json({ success: false });
+      }
+
+      if (result.length === 0) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials"
+        });
+      }
+
+      const user = result[0];
+
+      if (user.password !== password) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials"
+        });
+      }
+
+      res.json({
+        success: true,
+        user
+      });
     }
   );
 });
+
+
 
 /* ================= PROFILE ================= */
 
@@ -233,33 +287,37 @@ app.get("/services", (req, res) => {
 
 /* SEND MESSAGE */
 app.post("/contact", (req, res) => {
-  const { user_id, subject, message } = req.body;
+  const { user_id, name, phone, subject, message } = req.body;
 
-  if(!subject || !message) return res.status(400).json({ success: false, error: "Fields cannot be empty" });
+  if (!user_id || !name || !phone || !subject || !message) {
+    return res.status(400).json({
+      success: false,
+      error: "All fields are required"
+    });
+  }
 
   db.query(
-    "INSERT INTO contact_messages (user_id, subject, message) VALUES (?,?,?)",
-    [user_id, subject, message],
+    `INSERT INTO contact_messages 
+     (user_id, name, phone, subject, message) 
+     VALUES (?,?,?,?,?)`,
+    [user_id, name, phone, subject, message],
     (err, result) => {
-        if(err) return res.status(500).json({ success: false, error: err });
-        res.json({ success: true, message: "Message sent successfully" });
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          success: false,
+          error: "Database error"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Message sent successfully"
+      });
     }
   );
 });
 
-/* VIEW USER MESSAGES */
-app.get("/messages/:userId", (req, res) => {
-  const userId = req.params.userId;
-
-  db.query(
-    "SELECT * FROM contact_messages WHERE user_id = ? ORDER BY created_at DESC",
-    [userId],
-    (err, result) => {
-      if(err) return res.status(500).json({ success: false, error: err });
-      res.json({ success: true, messages: result });
-    }
-  );
-});
 
 // My Srvices
 app.get("/my-services/:userId", (req, res) => {
@@ -271,18 +329,37 @@ app.get("/my-services/:userId", (req, res) => {
 });
 
 
+
 app.put("/service/:id", (req, res) => {
-  const { title, description, hours } = req.body;
+  const { title, description, hours, user_id } = req.body;
+  const serviceId = req.params.id;
 
   db.query(
-    "UPDATE services SET title=?, description=?, hours=? WHERE id=?",
-    [title, description, hours, req.params.id],
-    err => {
-      if (err) return res.json({ success: false });
-      res.json({ success: true });
+    "SELECT * FROM services WHERE id=? AND user_id=?",
+    [serviceId, user_id],
+    (err, result) => {
+      if (err) return res.status(500).json({ success: false });
+
+      if (result.length === 0) {
+        return res.status(403).json({
+          success: false,
+          message: "Unauthorized access"
+        });
+      }
+
+      db.query(
+        "UPDATE services SET title=?, description=?, hours=? WHERE id=?",
+        [title, description, hours, serviceId],
+        err => {
+          if (err) return res.status(500).json({ success: false });
+          res.json({ success: true });
+        }
+      );
     }
   );
 });
+
+
 
 app.delete("/service/:id", (req, res) => {
   db.query(
@@ -365,7 +442,7 @@ app.delete("/delete-resource/:id/:userId", (req, res) => {
 });
 
 /* ================= SERVER ================= */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
 });

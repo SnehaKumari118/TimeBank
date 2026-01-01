@@ -12,6 +12,32 @@ function logout() {
 
 /* ================= LOGIN ================= */
 
+// function login(e) {
+//   e.preventDefault();
+
+//   const email = document.getElementById("email")?.value;
+//   const password = document.getElementById("password")?.value;
+//   const error = document.getElementById("errorMsg");
+
+//   error?.classList.add("hidden");
+
+//   fetch(API + "/login", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ email, password }),
+//   })
+//     .then(res => res.json())
+//     .then(user => {
+//       if (!user) {
+//         error?.classList.remove("hidden");
+//         return;
+//       }
+//       localStorage.setItem("user", JSON.stringify(user));
+//       location.href = "dashboard.html";
+//     })
+//     .catch(() => error?.classList.remove("hidden"));
+// }
+
 function login(e) {
   e.preventDefault();
 
@@ -27,16 +53,23 @@ function login(e) {
     body: JSON.stringify({ email, password }),
   })
     .then(res => res.json())
-    .then(user => {
-      if (!user) {
-        error?.classList.remove("hidden");
+    .then(data => {
+      if (!data.success) {
+        error.textContent = data.message || "Login failed";
+        error.classList.remove("hidden");
         return;
       }
-      localStorage.setItem("user", JSON.stringify(user));
+
+      // ✅ Store ONLY user object
+      localStorage.setItem("user", JSON.stringify(data.user));
       location.href = "dashboard.html";
     })
-    .catch(() => error?.classList.remove("hidden"));
+    .catch(() => {
+      error.textContent = "Server error";
+      error.classList.remove("hidden");
+    });
 }
+
 
 /* ================= REGISTER ================= */
 
@@ -62,6 +95,7 @@ function register(e) {
     .then(() => location.href = "login.html")
     .catch(() => error?.classList.remove("hidden"));
 }
+
 
 /* ================= SERVICES ================= */
 

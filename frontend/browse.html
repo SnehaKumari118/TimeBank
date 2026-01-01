@@ -6,15 +6,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-200 to-pink-100">
 
 <!-- NAVBAR -->
-<nav class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow">
+<nav class="sticky top-0 z-50 backdrop-blur-lg bg-white/70 shadow-md">
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
     <!-- LOGO -->
-       <h1 class="text-2xl font-bold flex items-center gap-2 cursor-pointer"
-        onclick="location.href='dashboard.html'">
+    <h1 class="text-2xl font-extrabold flex items-center gap-2 cursor-pointer text-indigo-700"
+      onclick="location.href='dashboard.html'">
       <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -23,13 +23,13 @@
     </h1>
 
     <!-- DESKTOP MENU -->
-    <div class="hidden md:flex items-center gap-6">
-      <a href="dashboard.html" class="hover:text-indigo-200 transition">Dashboard</a>
-      <a href="browse.html" class="hover:text-indigo-200 transition">Browse Skills</a>
-      <a href="profile.html" class="hover:text-indigo-200 transition">Profile</a>
+    <div class="hidden md:flex items-center gap-6 font-medium">
+      <a href="dashboard.html" class="hover:text-indigo-600 transition">Dashboard</a>
+      <a href="browse.html" class="hover:text-indigo-600 transition">Browse Skills</a>
+      <a href="profile.html" class="hover:text-indigo-600 transition">Profile</a>
       <button
         onclick="logout()"
-        class="bg-white text-indigo-600 px-4 py-1.5 rounded-lg font-semibold hover:bg-indigo-100 transition"
+        class="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition"
       >
         Logout
       </button>
@@ -37,7 +37,7 @@
 
     <!-- HAMBURGER -->
     <button
-      class="md:hidden text-3xl focus:outline-none"
+      class="md:hidden text-3xl text-indigo-700 focus:outline-none"
       onclick="toggleMenu()"
     >
       ☰
@@ -47,28 +47,27 @@
   <!-- MOBILE MENU -->
   <div
     id="mobileMenu"
-    class="md:hidden hidden bg-indigo-700 px-6 py-4 space-y-4"
+    class="md:hidden hidden bg-white/90 backdrop-blur px-6 py-4 space-y-4 shadow rounded-b-xl"
   >
-    <a href="dashboard.html" class="block hover:text-indigo-200">Dashboard</a>
-    <a href="browse.html" class="block hover:text-indigo-200">Browse Skills</a>
-    <a href="profile.html" class="block hover:text-indigo-200">Profile</a>
+    <a href="dashboard.html" class="block hover:text-indigo-600">Dashboard</a>
+    <a href="browse.html" class="block hover:text-indigo-600">Browse Skills</a>
+    <a href="profile.html" class="block hover:text-indigo-600">Profile</a>
     <button
       onclick="logout()"
-      class="w-full bg-white text-indigo-600 py-2 rounded-lg font-semibold hover:bg-indigo-100 transition"
+      class="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
     >
       Logout
     </button>
   </div>
 </nav>
 
-
 <!-- PAGE CONTAINER -->
-<div class="max-w-7xl mx-auto px-6 py-8">
+<div class="max-w-7xl mx-auto px-6 py-10">
 
   <!-- HEADER -->
-  <div class="mb-6">
-    <h2 class="text-3xl font-bold text-gray-800">Browse Skills</h2>
-    <p class="text-gray-600 mt-1">
+  <div class="mb-8">
+    <h2 class="text-4xl font-extrabold text-gray-800">Browse Skills</h2>
+    <p class="text-gray-600 mt-2 text-lg">
       Learn from shared skills and resources by the community
     </p>
   </div>
@@ -77,11 +76,13 @@
   <input
     id="search"
     placeholder="🔍 Search skills (Web, Java, Design...)"
-    class="w-full mb-6 border rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 outline-none"
+    class="w-full mb-8 border border-gray-300 rounded-xl p-4 text-base
+           focus:ring-2 focus:ring-indigo-400 focus:outline-none
+           shadow-sm bg-white/90 backdrop-blur transition"
   />
 
   <!-- SKILLS GRID -->
-  <div id="skillsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <div id="skillsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
 
 </div>
 
@@ -93,7 +94,7 @@
 <script src="app.js"></script>
 
 <script>
-    function toggleMenu() {
+  function toggleMenu() {
     document.getElementById("mobileMenu").classList.toggle("hidden");
   }
 
@@ -101,7 +102,6 @@
     localStorage.clear();
     location.href = "login.html";
   }
-
 </script>
 
 </body>

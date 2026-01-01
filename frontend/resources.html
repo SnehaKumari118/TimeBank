@@ -7,12 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-br from-indigo-50 to-gray-100 min-h-screen">
+<body class="bg-gradient-to-br from-indigo-100 via-purple-200 to-pink-100 min-h-screen">
 
-<!-- Navbar -->
-<nav class="bg-indigo-600 text-white shadow-md">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-     <h1 class="text-2xl font-bold flex items-center gap-2 cursor-pointer"
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-50 backdrop-blur-lg bg-white/70 shadow-lg">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <!-- Logo -->
+    <h1 class="text-2xl font-extrabold flex items-center gap-2 cursor-pointer text-indigo-700"
         onclick="location.href='dashboard.html'">
       <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -21,20 +23,35 @@
       TimeBank
     </h1>
 
-    <div class="hidden md:flex gap-6">
-      <a href="dashboard.html" class="hover:text-indigo-200">Dashboard</a>
-      <a href="upload-resource.html" class="hover:text-indigo-200">Upload</a>
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-6 font-medium text-gray-700">
+      <a href="dashboard.html" class="hover:text-indigo-600 transition">Dashboard</a>
+      <a href="my-resources.html" class="hover:text-indigo-600 transition">My Resources</a>
+      <a href="upload-resource.html" class="hover:text-indigo-600 transition">Upload Content</a>
+
+      <button onclick="logout()"
+        class="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition">
+        Logout
+      </button>
     </div>
 
-    <button class="md:hidden text-3xl" onclick="toggleMenu()">☰</button>
+    <!-- Hamburger -->
+    <button class="md:hidden text-3xl text-indigo-700" onclick="toggleMenu()">☰</button>
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobileMenu" class="hidden bg-indigo-700 px-4 pb-4 space-y-2">
-    <a href="dashboard.html" class="block">Dashboard</a>
-    <a href="upload-resource.html" class="block">Upload</a>
+  <div id="mobileMenu" class="hidden md:hidden bg-white/90 backdrop-blur px-6 py-4 space-y-4">
+    <a href="dashboard.html" class="block hover:text-indigo-600">Dashboard</a>
+    <a href="my-resources.html" class="block hover:text-indigo-600">My Resources</a>
+    <a href="upload-resource.html" class="block hover:text-indigo-600">Upload Content</a>
+
+    <button onclick="logout()"
+      class="w-full bg-red-500 py-2 rounded-lg text-white hover:bg-red-600 transition">
+      Logout
+    </button>
   </div>
 </nav>
+
 
 <!-- Page Content -->
 <div class="max-w-7xl mx-auto px-4 py-8">
@@ -127,6 +144,11 @@ fetch(API + "/resources")
       </div>
     `).join("");
   });
+
+    function logout() {
+    localStorage.clear();
+    location.href = "login.html";
+  }
 </script>
 <!-- FOOTER -->
 <footer class="text-center text-gray-500 py-6">

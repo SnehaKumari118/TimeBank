@@ -13,8 +13,9 @@ ALTER TABLE users
 ADD bio TEXT,
 ADD skills_offered TEXT,
 ADD skills_needed TEXT,
-ADD availability VARCHAR(100),
-ADD profile_pic VARCHAR(255);
+ADD profile_pic VARCHAR(255),
+ADD location VARCHAR(100),
+ADD experience_level VARCHAR(50);
 
 CREATE TABLE services (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,7 +25,6 @@ CREATE TABLE services (
   hours INT,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
 
 CREATE TABLE contact_messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,4 +48,14 @@ CREATE TABLE learning_resources (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+ALTER TABLE services
+ADD COLUMN user_name VARCHAR(100) AFTER user_id;
+
+UPDATE services s
+JOIN users u ON s.user_id = u.id
+SET s.user_name = u.name
+WHERE s.user_name IS NULL;
+
+
 

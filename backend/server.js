@@ -1,11 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./db");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-
 const app = express();
+
+// Serve static files from public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Optional: default route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 /* ================= MIDDLEWARE ================= */
 app.use(cors());

@@ -62,5 +62,3 @@ jobs:
           app-name: 'TimeBank'
           slot-name: 'Production'
           package: backend.zip
-
-          

@@ -51,16 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7696DEABDE1F441BBA53C930A837A4C5 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_626978D27F9846D9A760916B92639487 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3FB2F979B729498C9571DE832889F680 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_89B0CA9904B94DE0BD94C1FF0A1C6561 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7DD33BF36E4346D0A883BD835EF9CE53 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CF310E7630384FFDB0523AFA2DC28DFF }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'timebank-ang2a2c2cubxfzb4'
+          app-name: 'TimeBank'
           slot-name: 'Production'
           package: .
-
           

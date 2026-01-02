@@ -1,4 +1,4 @@
-const API = "http://localhost:3000";
+const API = "https://timebank-ang2a2c2cubxfzb4.eastasia-01.azurewebsites.net";
 
 /* ===== USER FUNCTIONS ===== */
 function getUser() {

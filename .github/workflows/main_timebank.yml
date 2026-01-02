@@ -59,7 +59,8 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'TimeBank'
+          app-name: 'timebank-ang2a2c2cubxfzb4'
           slot-name: 'Production'
           package: .
+
           

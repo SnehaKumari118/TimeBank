@@ -1,4 +1,4 @@
-const API = "https://timebank-backend-qi71.onrender.com";
+const API = "http://localhost:3000";
 
 /* ===== USER FUNCTIONS ===== */
 function getUser() {
